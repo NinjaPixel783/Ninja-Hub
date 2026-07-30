@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ninja Hub — Galerie de projets</title>
+<meta name="description" content="Archive personnelle de projets, présentée comme des rouleaux dans un dojo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root{
+        --encre: #0a0a0f;
+        --carte: #14141b;
+        --carte-survol: #1a1a22;
+        --ligne: #26262f;
+        --texte: #edece7;
+        --texte-att: #8a8894;
+        --rouge: #d6203f;
+        --rouge-sombre: #7a1226;
+        --rouge-texte: #ff5470;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        background: var(--encre);
+        color: var(--texte);
+        background-image:
+            repeating-linear-gradient(135deg, rgba(214,32,63,0.035) 0px, rgba(214,32,63,0.035) 1px, transparent 1px, transparent 64px);
+    }
+
+    a{ color: inherit; }
+
+    .sr-only{
+        position: absolute;
+        width: 1px; height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    :focus-visible{
+        outline: 2px solid var(--rouge-texte);
+        outline-offset: 3px;
+    }
+
+    /* ---------- En-tête ---------- */
+
+    .entete{
+        padding: 88px 24px 56px;
+        text-align: center;
+        border-bottom: 1px solid var(--ligne);
+    }
+
+    .eyebrow{
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--rouge-texte);
+        margin: 0 0 18px;
+    }
+
+    h1{
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-weight: 900;
+        font-size: clamp(42px, 8vw, 76px);
+        letter-spacing: 0.02em;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .trait{
+        display: block;
+        width: 120px;
+        height: 10px;
+        margin: 26px auto 22px;
+    }
+
+    .sous-titre{
+        max-width: 480px;
+        margin: 0 auto;
+        color: var(--texte-att);
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    /* ---------- Galerie ---------- */
+
+    .galerie{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 28px;
+        padding: 56px 40px 80px;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .carte{
+        background: var(--carte);
+        border: 1px solid var(--ligne);
+        border-radius: 4px;
+        overflow: hidden;
+        transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .carte:hover{
+        transform: translateY(-6px);
+        border-color: var(--rouge-sombre);
+        background: var(--carte-survol);
+    }
+
+    .image-zone{
+        position: relative;
+        height: 190px;
+        background: linear-gradient(160deg, #1c1c26 0%, #0d0d12 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 84%, 88% 100%, 0 100%);
+        overflow: hidden;
+    }
+
+    .image-zone svg.motif{
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+    }
+
+    .image-zone img{
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .etiquette{
+        position: absolute;
+        top: 14px;
+        left: 0;
+        background: rgba(10,10,15,0.82);
+        border-left: 2px solid var(--rouge);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--texte);
+        padding: 6px 12px;
+    }
+
+    .contenu{
+        padding: 22px 22px 24px;
+    }
+
+    .indice{
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        color: var(--texte-att);
+        letter-spacing: 0.08em;
+        margin-bottom: 8px;
+    }
+
+    .contenu h2{
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-weight: 700;
+        font-size: 21px;
+        margin: 0 0 10px;
+    }
+
+    .contenu p{
+        color: var(--texte-att);
+        font-size: 14px;
+        line-height: 1.65;
+        margin: 0 0 22px;
+    }
+
+    .pied{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .sceau{
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--texte);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .sceau .cachet{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #e8455f, var(--rouge) 60%, var(--rouge-sombre) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(-8deg);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .sceau .cachet svg{
+        width: 16px;
+        height: 16px;
+    }
+
+    .sceau:hover .cachet,
+    .sceau:focus-visible .cachet{
+        transform: rotate(0deg) scale(1.08);
+    }
+
+    /* ---------- Pied de page ---------- */
+
+    .bas{
+        text-align: center;
+        padding: 40px 24px 56px;
+        color: var(--texte-att);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 560px){
+        .entete{ padding: 64px 20px 40px; }
+        .galerie{ padding: 40px 20px 64px; gap: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+        *{ transition: none !important; }
+    }
+</style>
+</head>
+<body>
+
+<header class="entete">
+    <p class="eyebrow">Archive du dojo informatique</p>
+    <h1>Ninja Hub</h1>
+    <svg class="trait" viewBox="0 0 120 10" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 8 L118 2" stroke="#d6203f" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <p class="sous-titre">Chaque rouleau consigne un projet mené dans l'ombre, prêt à être déployé au grand jour.</p>
+</header>
+
+<main>
+<section class="galerie" aria-label="Galerie de projets">
+
+    <article class="carte">
+        <div class="image-zone">
+            <svg class="motif" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M0 150 L60 90 L110 130 L170 50 L230 110 L300 60 L300 190 L0 190 Z" fill="#1f1f29"/>
+                <circle cx="240" cy="45" r="22" fill="#242430"/>
+            </svg>
+            <img src="image1.jpg" alt="Aperçu du projet 1" loading="lazy" onerror="this.style.display='none'">
+            <span class="etiquette">Application</span>
+        </div>
+        <div class="contenu">
+            <span class="indice">Rouleau N°01</span>
+            <h2>Projet 1</h2>
+            <p>Description du projet.</p>
+            <div class="pied">
+                <a class="sceau" href="#">
+                    <span class="cachet">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6 12h12M12 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    Voir
+                </a>
+            </div>
+        </div>
+    </article>
+
+    <article class="carte">
+        <div class="image-zone">
+            <svg class="motif" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M0 40 Q 40 10 80 40 T 160 40 T 240 40 T 300 40 L300 190 L0 190 Z" fill="#1f1f29"/>
+            </svg>
+            <img src="image2.jpg" alt="Aperçu du projet 2" loading="lazy" onerror="this.style.display='none'">
+            <span class="etiquette">Site web</span>
+        </div>
+        <div class="contenu">
+            <span class="indice">Rouleau N°02</span>
+            <h2>Projet 2</h2>
+            <p>Description du projet.</p>
+            <div class="pied">
+                <a class="sceau" href="#">
+                    <span class="cachet">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6 12h12M12 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    Voir
+                </a>
+            </div>
+        </div>
+    </article>
+
+    <article class="carte">
+        <div class="image-zone">
+            <svg class="motif" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="230" cy="55" r="30" fill="none" stroke="#2a2a34" stroke-width="2"/>
+                <circle cx="230" cy="55" r="42" fill="none" stroke="#22222c" stroke-width="1"/>
+                <path d="M0 190 L90 100 L150 150 L300 70 L300 190 Z" fill="#1f1f29"/>
+            </svg>
+            <img src="image3.jpg" alt="Aperçu du projet 3" loading="lazy" onerror="this.style.display='none'">
+            <span class="etiquette">Outil</span>
+        </div>
+        <div class="contenu">
+            <span class="indice">Rouleau N°03</span>
+            <h2>Projet 3</h2>
+            <p>Description du projet.</p>
+            <div class="pied">
+                <a class="sceau" href="#">
+                    <span class="cachet">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6 12h12M12 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    Voir
+                </a>
+            </div>
+        </div>
+    </article>
+
+</section>
+</main>
+
+<footer class="bas">
+    <p>© archive personnelle — dernière mise à jour 2026</p>
+  <p>Tu peux me proposer tes projet/defis sur le serveur Discord: https://discord.gg/BcnwNBPJ</p>
+</footer>
+
+</body>
+</html>
