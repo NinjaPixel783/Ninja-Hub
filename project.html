@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposer un projet — Ninja Hub</title>
+<meta name="description" content="Soumettre une proposition de projet, transmise directement sur Discord.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root{
+        --encre: #0a0a0f;
+        --carte: #14141b;
+        --champ: #191920;
+        --ligne: #26262f;
+        --ligne-forte: #34343f;
+        --texte: #edece7;
+        --texte-att: #8a8894;
+        --rouge: #d6203f;
+        --rouge-sombre: #7a1226;
+        --rouge-texte: #ff5470;
+        --vert: #2eaa6b;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        background: var(--encre);
+        color: var(--texte);
+        background-image:
+            repeating-linear-gradient(135deg, rgba(214,32,63,0.035) 0px, rgba(214,32,63,0.035) 1px, transparent 1px, transparent 64px);
+        min-height: 100vh;
+    }
+
+    a{ color: var(--rouge-texte); }
+
+    :focus-visible{
+        outline: 2px solid var(--rouge-texte);
+        outline-offset: 3px;
+    }
+
+    /* ---------- En-tête ---------- */
+
+    .entete{
+        padding: 72px 24px 44px;
+        text-align: center;
+        border-bottom: 1px solid var(--ligne);
+    }
+
+    .eyebrow{
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--rouge-texte);
+        margin: 0 0 18px;
+    }
+
+    h1{
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-weight: 900;
+        font-size: clamp(32px, 6vw, 54px);
+        letter-spacing: 0.01em;
+        margin: 0;
+        line-height: 1.1;
+    }
+
+    .trait{
+        display: block;
+        width: 100px;
+        height: 10px;
+        margin: 24px auto 20px;
+    }
+
+    .sous-titre{
+        max-width: 460px;
+        margin: 0 auto;
+        color: var(--texte-att);
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    /* ---------- Formulaire ---------- */
+
+    main{
+        display: flex;
+        justify-content: center;
+        padding: 56px 24px 80px;
+    }
+
+    .parchemin{
+        width: 100%;
+        max-width: 620px;
+        background: var(--carte);
+        border: 1px solid var(--ligne);
+        border-radius: 4px;
+        padding: 40px;
+    }
+
+    .groupe{
+        margin-bottom: 24px;
+    }
+
+    .groupe label{
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--texte-att);
+        margin-bottom: 10px;
+    }
+
+    .obligatoire{
+        color: var(--rouge-texte);
+    }
+
+    .groupe input[type="text"],
+    .groupe input[type="email"],
+    .groupe input[type="url"],
+    .groupe select,
+    .groupe textarea{
+        width: 100%;
+        background: var(--champ);
+        border: 1px solid var(--ligne-forte);
+        border-radius: 3px;
+        color: var(--texte);
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        padding: 12px 14px;
+        transition: border-color 0.2s ease;
+    }
+
+    .groupe input::placeholder,
+    .groupe textarea::placeholder{
+        color: #5a5964;
+    }
+
+    .groupe input:focus,
+    .groupe select:focus,
+    .groupe textarea:focus{
+        border-color: var(--rouge);
+        outline: none;
+    }
+
+    .groupe textarea{
+        resize: vertical;
+        min-height: 120px;
+        line-height: 1.6;
+    }
+
+    .groupe select{
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%238a8894' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 38px;
+        cursor: pointer;
+    }
+
+    .deux-colonnes{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .piege{
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    /* ---------- Bouton d'envoi ---------- */
+
+    .envoyer{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: none;
+        border: 1px solid var(--rouge-sombre);
+        border-radius: 3px;
+        padding: 16px;
+        margin-top: 8px;
+        cursor: pointer;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--texte);
+        transition: border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .envoyer:hover:not(:disabled){
+        border-color: var(--rouge);
+        background: rgba(214,32,63,0.08);
+    }
+
+    .envoyer:disabled{
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .cachet{
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #e8455f, var(--rouge) 60%, var(--rouge-sombre) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .cachet svg{
+        width: 12px;
+        height: 12px;
+    }
+
+    /* ---------- Message d'état ---------- */
+
+    .statut{
+        margin-top: 20px;
+        padding: 14px 16px;
+        border-radius: 3px;
+        font-size: 13px;
+        line-height: 1.6;
+        display: none;
+    }
+
+    .statut.visible{ display: block; }
+
+    .statut.succes{
+        background: rgba(46,170,107,0.1);
+        border: 1px solid var(--vert);
+        color: #7fd3a8;
+    }
+
+    .statut.erreur{
+        background: rgba(214,32,63,0.1);
+        border: 1px solid var(--rouge);
+        color: var(--rouge-texte);
+    }
+
+    @media (max-width: 560px){
+        .entete{ padding: 56px 20px 36px; }
+        .parchemin{ padding: 28px 22px; }
+        .deux-colonnes{ grid-template-columns: 1fr; gap: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+        *{ transition: none !important; }
+    }
+</style>
+</head>
+<body>
+
+<header class="entete">
+    <p class="eyebrow">Nouvelle requête</p>
+    <h1>Proposer un projet</h1>
+    <svg class="trait" viewBox="0 0 100 10" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 8 L98 2" stroke="#d6203f" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <p class="sous-titre">Décris ton idée. Une fois scellée, la requête part directement sur notre canal Discord.</p>
+</header>
+
+<main>
+<form class="parchemin" id="formulaire-projet" novalidate>
+
+    <div class="groupe deux-colonnes">
+        <div>
+            <label for="nom">Ton nom <span class="obligatoire">*</span></label>
+            <input type="text" id="nom" name="nom" placeholder="Kenji" required autocomplete="name">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="kenji@exemple.com" autocomplete="email">
+        </div>
+    </div>
+
+    <div class="groupe">
+        <label for="titre">Titre du projet <span class="obligatoire">*</span></label>
+        <input type="text" id="titre" name="titre" placeholder="Nom de ton projet" required>
+    </div>
+
+    <div class="groupe">
+        <label for="categorie">Catégorie</label>
+        <select id="categorie" name="categorie">
+            <option value="Application">Application</option>
+            <option value="Site web">Site web</option>
+            <option value="Outil">Outil</option>
+            <option value="Autre">Autre</option>
+        </select>
+    </div>
+
+    <div class="groupe">
+        <label for="description">Description <span class="obligatoire">*</span></label>
+        <textarea id="description" name="description" placeholder="Explique l'idée, le besoin, ce que tu veux construire..." required></textarea>
+    </div>
+
+    <div class="groupe">
+        <label for="lien">Lien ou référence</label>
+        <input type="url" id="lien" name="lien" placeholder="https://...">
+    </div>
+
+    <div class="piege" aria-hidden="true">
+        <label for="confirmation">Laisser ce champ vide</label>
+        <input type="text" id="confirmation" name="confirmation" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button type="submit" class="envoyer" id="bouton-envoyer">
+        <span class="cachet">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M6 12h12M12 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
+        <span id="texte-bouton">Sceller et envoyer</span>
+    </button>
+
+    <div class="statut" id="statut" role="status" aria-live="polite"></div>
+
+</form>
+</main>
+
+<script>
+    // Colle ici l'URL de ton webhook Discord (Paramètres du salon > Intégrations > Webhooks > Copier l'URL).
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1532334721055457401/GHqGjhCnV2G9bh2U5kw87kFwva5_0dv3qPOD1Cn4QgtG2xQFdRuA5ocNgrD8ImuPFaL7";
+
+    const formulaire = document.getElementById('formulaire-projet');
+    const bouton = document.getElementById('bouton-envoyer');
+    const texteBouton = document.getElementById('texte-bouton');
+    const statut = document.getElementById('statut');
+
+    function afficherStatut(message, type){
+        statut.textContent = message;
+        statut.className = 'statut visible ' + type;
+    }
+
+    formulaire.addEventListener('submit', async function(evenement){
+        evenement.preventDefault();
+        statut.className = 'statut';
+
+        if (formulaire.confirmation.value !== ''){
+            return;
+        }
+
+        if (!formulaire.nom.value.trim() || !formulaire.titre.value.trim() || !formulaire.description.value.trim()){
+            afficherStatut('Merci de remplir les champs obligatoires avant d\'envoyer.', 'erreur');
+            return;
+        }
+
+        if (WEBHOOK_URL.includes('COLLE_TON_URL')){
+            afficherStatut('Le webhook Discord n\'est pas encore configuré sur cette page (variable WEBHOOK_URL dans le code).', 'erreur');
+            return;
+        }
+
+        const donnees = {
+            nom: formulaire.nom.value.trim(),
+            email: formulaire.email.value.trim(),
+            titre: formulaire.titre.value.trim(),
+            categorie: formulaire.categorie.value,
+            description: formulaire.description.value.trim(),
+            lien: formulaire.lien.value.trim()
+        };
+
+        const champs = [
+            { name: 'Proposé par', value: donnees.email ? donnees.nom + ' (' + donnees.email + ')' : donnees.nom, inline: false },
+            { name: 'Catégorie', value: donnees.categorie, inline: true }
+        ];
+        if (donnees.lien){
+            champs.push({ name: 'Lien', value: donnees.lien, inline: true });
+        }
+
+        const charge = {
+            embeds: [{
+                title: donnees.titre,
+                description: donnees.description,
+                color: 14032959,
+                fields: champs,
+                footer: { text: 'Ninja Hub — Proposition de projet' },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        bouton.disabled = true;
+        texteBouton.textContent = 'Envoi en cours...';
+
+        try{
+            const reponse = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(charge)
+            });
+
+            if (reponse.ok){
+                afficherStatut('Ta proposition a bien été transmise. Merci !', 'succes');
+                formulaire.reset();
+            } else {
+                afficherStatut('L\'envoi a échoué (code ' + reponse.status + '). Réessaie dans un instant.', 'erreur');
+            }
+        } catch (erreur){
+            afficherStatut('Impossible de contacter Discord pour le moment. Vérifie ta connexion et réessaie.', 'erreur');
+        } finally {
+            bouton.disabled = false;
+            texteBouton.textContent = 'Sceller et envoyer';
+        }
+    });
+</script>
+
+</body>
+</html>
