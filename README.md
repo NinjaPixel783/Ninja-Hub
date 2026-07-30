@@ -1,7 +1,7 @@
 # Ninja Hub
 
 <p align="center">
-  <img src="logo.png" width="150">
+  <img src="images/logo.png" width="150">
 </p>
 
 <h3 align="center">Une communauté moderne, active et ouverte à tous 🚀</h3>
